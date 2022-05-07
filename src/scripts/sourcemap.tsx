@@ -1,15 +1,4 @@
 import { TraceMap, originalPositionFor } from '@jridgewell/trace-mapping'
-const cache = new Map()
-const fetchBundleAndBundleMap = async (bundleUrl: string, bundleMapUrl: string) => {
-  if (cache.has(bundleUrl)) {
-    return cache.get(bundleUrl)
-  }
-  // else {
-  //   const bundles = await Promise.all([fetch(bundleUrl).then((res) => res.text()), fetch(bundleMapUrl).then((res) => res.json())])
-  //   cache.set(bundleUrl, bundles)
-  //   return bundles
-  // }
-}
 
 const extractCoverageFromBundle = (rangeStart: number, rangeEnd: number, bundle: string) => {
   const coverage = bundle.slice(rangeStart, rangeEnd).split(/\n/)
@@ -37,20 +26,21 @@ const CodeCoverageMetaData = (coverage: any, bundleMap: any) => {
     endPosition,
   }
 }
-export const getCoverage = async (coverageRowData: any) => {
-  const trace = await coverageRowData.trace.map(async (e: any) => {
-    const bundleUrl = e.url
-    const bundleMapUrl = bundleUrl.replace('.js', '.js.map')
-    const [bundle, bundleMap] = await fetchBundleAndBundleMap(bundleUrl, bundleMapUrl)
+
+export const getCoverage = (coverageRowData: any) => {
+  const trace = coverageRowData.trace.map((e: any) => {
+    const fileURL = new URL(e.url).pathname.substring(1)
+    const files = coverageRowData.bundleAndMap.find((bundle: any) => bundle[1].file === fileURL)
+    const [bundle, bundleMap] = files
     const { startOffset, endOffset } = e.ranges[0]
     const coverage = extractCoverageFromBundle(startOffset, endOffset, bundle)
     const codeCoverageMetaData = CodeCoverageMetaData(coverage, bundleMap)
     return { ...codeCoverageMetaData, ...e }
   })
-  const profile = await coverageRowData.profile.map(async (e: any) => {
-    const bundleUrl = e.callFrame.url
-    const bundleMapUrl = bundleUrl.replace('.js', '.js.map')
-    const [bundle, bundleMap] = await fetchBundleAndBundleMap(bundleUrl, bundleMapUrl)
+  const profile = coverageRowData.profile.map((e: any) => {
+    const fileURL = new URL(e.callFrame.url).pathname.substring(1)
+    const files = coverageRowData.bundleAndMap.find((bundle: any) => bundle[1].file === fileURL)
+    const [bundle, bundleMap] = files
     const lineBundleStart = e.callFrame.lineNumber
     const lineBundleEnd = e.callFrame.lineNumber
     const codeCoverageMetaData = CodeCoverageMetaData({ lineBundleStart, lineBundleEnd }, bundleMap)
@@ -60,9 +50,9 @@ export const getCoverage = async (coverageRowData: any) => {
       return undefined
     }
   })
-  const profileData = await Promise.all(profile)
-  const traceData = await Promise.all(trace)
-  console.log('trace', traceData)
-  console.log('profile', profileData)
-  return []
+  // TODO: verify the coverage information produced by the tace and the prfoile are the same
+  // TODO: Then concatenate the coverage information from the trace and the profile ( order is important )
+  console.log('trace', trace)
+  console.log('profile', profile)
+  return [trace, profile]
 }

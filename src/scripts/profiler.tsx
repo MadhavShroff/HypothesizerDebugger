@@ -30,7 +30,6 @@ const collectTrace = async (): Promise<any> => {
   const rowSnapshot = await sendDebuggerCommand('Profiler.takePreciseCoverage')
   const coverageSnapshot = rowSnapshot.result
     .filter((e: { url: string | string[] }) => e.url.includes('localhost'))
-    // .map((e: { functions: any[] }) => e.functions.filter((func: any) => func.isBlockCoverage))
     .flatMap((e: any) => e.functions.map((func: any) => ({ ...func, url: e.url, timestamp: Date.now() })))
 
   trace.push(...coverageSnapshot)
@@ -58,9 +57,8 @@ const endProfiler = async (): Promise<any> => {
   await sendDebuggerCommand('Debugger.disable')
   await debuggingLifeCycles('detach')
   const bundles = [...files.values()].map(({ sourceMap, url }) => fetchBundleAndBundleMap(url, sourceMap))
-  const bundleMap = await Promise.all(bundles)
-  console.log(bundleMap)
-  return Promise.resolve({ trace, profile })
+  const bundleAndMap = await Promise.all(bundles)
+  return Promise.resolve({ trace, profile, bundleAndMap })
 }
 
 chrome.debugger.onEvent.addListener((event: any, params: any, e: any) => {
