@@ -1,0 +1,48 @@
+{
+  "manifest_version": 3,
+  "name": "Test",
+  "short_name": "Test",
+  "version": "0.1",
+  "description": "Chrome Extension boilerplate created with React Typescript.",
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*/*"
+      ],
+      "js": [
+        "scripts/content_script.js"
+      ]
+    }
+  ],
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "debugger",
+    "storage",
+    "tabs"
+  ],
+  "host_permissions": [
+    "*://*/*"
+  ],
+  "background": {
+    "service_worker": "background.ts"
+  },
+  "devtools_page": "bootstraper/bootstraper.html",
+  "icons": {
+    "48": "assets/icons/64.png",
+    "64": "assets/icons/64.png",
+    "128": "assets/icons/128.png",
+    "256": "assets/icons/256.png"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "*.js",
+        "scripts/inject.js"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ]
+}
