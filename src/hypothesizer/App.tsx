@@ -5,7 +5,7 @@ export const App = (): JSX.Element => {
   const [trace, setTrace] = useState<any>([])
 
   const setMethodCoverage = (methodsCoverage: any): void => {
-    console.log(methodsCoverage)
+    // console.log(methodsCoverage)
     setTrace(methodsCoverage)
   }
   return (
