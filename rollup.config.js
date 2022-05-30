@@ -8,7 +8,7 @@ import { chromeExtension, simpleReloader } from 'rollup-plugin-chrome-extension'
 import { emptyDir } from 'rollup-plugin-empty-dir'
 import zip from 'rollup-plugin-zip'
 import replace from '@rollup/plugin-replace'
-import postcss from 'rollup-plugin-postcss'
+import css from "rollup-plugin-import-css";
 
 
 const isProduction = process.env.NODE_ENV === 'production'
@@ -20,9 +20,7 @@ export default {
     chunkFileNames: path.join('chunks', '[name]-[hash].js'),
   },
   plugins: [
-    postcss({
-      modules: true
-    }),
+    css(),
     replace({
       'process.env.NODE_ENV': isProduction
         ? JSON.stringify('production')

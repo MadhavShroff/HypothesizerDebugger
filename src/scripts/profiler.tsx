@@ -75,10 +75,9 @@ const startProfiler = async (callback: any): Promise<void> => {
 }
 
 const endProfiler = async (): Promise<any> => {
-  console.log(Date.now())
   return new Promise((resolve) =>
     setTimeout(async () => {
-      clearInterval(incremnetalProfiler), 50
+      clearInterval(incremnetalProfiler), 100
       await sendDebuggerCommand('Profiler.stopPreciseCoverage')
       //@ts-ignore
       let { profile } = await sendDebuggerCommand('Profiler.stop')
@@ -88,7 +87,7 @@ const endProfiler = async (): Promise<any> => {
       await debuggingLifeCycles('detach')
       const bundles = [...files.values()].map(({ sourceMap, url }) => fetchBundleAndBundleMap(url, sourceMap))
       const bundleAndMap = await Promise.all(bundles)
-      console.log(Date.now())
+      console.log('profile->', profile)
       return resolve({ trace, profile, bundleAndMap })
     }, 600),
   )

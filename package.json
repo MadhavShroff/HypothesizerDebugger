@@ -30,6 +30,7 @@
     "@emotion/styled": "^11.8.1",
     "@jridgewell/trace-mapping": "^0.3.9",
     "@mui/icons-material": "^5.6.2",
+    "@mui/lab": "^5.0.0-alpha.81",
     "@mui/material": "^5.6.2",
     "@rollup/plugin-replace": "^3.0.0",
     "@types/chrome": "^0.0.181",
@@ -41,7 +42,7 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-json-view": "^1.21.3",
-    "rollup-plugin-postcss": "^4.0.2",
+    "rollup-plugin-import-css": "^3.0.3",
     "webextension-polyfill": "^0.7.0"
   },
   "devDependencies": {
@@ -54,7 +55,6 @@
     "cross-env": "^7.0.3",
     "eslint": "^7.16.0",
     "eslint-plugin-react": "^7.21.5",
-    "postcss": "^8.4.12",
     "reload": "^3.2.0",
     "rollup": "^2.56.3",
     "rollup-plugin-chrome-extension": "^3.6.1",

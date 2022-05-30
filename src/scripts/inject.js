@@ -31,6 +31,9 @@ document.addEventListener('click', function (event) {
         if (__reactFiber === null) {
             __reactFiber = findValueByPrefix(event.target, "__reactInternalInstance")
         }
+        if (__reactFiber == null) {
+            debugger;
+        }
         const data = {
             target: event.target.type,
             type: "click",

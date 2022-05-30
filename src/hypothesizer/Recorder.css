@@ -12,6 +12,6 @@
       box-shadow: 0 0 2px #a80505;
     }
   }
-  .recording {
+  #recording {
     animation: glowing 1300ms infinite;
   }

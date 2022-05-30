@@ -1,11 +1,10 @@
-import * as React from 'react'
+import React from 'react'
 import './Recorder.css'
 import { Button } from '@mui/material'
 import { VideoCall } from '@mui/icons-material'
 import { Pause } from '@mui/icons-material'
 import { endProfiler, startProfiler } from '../scripts/profiler'
 import { getCoverage } from '../scripts/sourcemap'
-import { convertLength } from '@mui/material/styles/cssUtils'
 type MethodCoverage = {
   method: string
   start: number
@@ -39,7 +38,7 @@ const Recorder: React.FC<RecorderProps> = ({ setMethodCoverage }): React.ReactEl
       const finalCoverage = devideCoverage(sortedCoverage)
       console.log('sortedCoverage->', sortedCoverage)
       console.log('finalCoverage->', finalCoverage)
-      setMethodCoverage(sortedCoverage)
+      setMethodCoverage(finalCoverage)
     }
     setRecordingState(recordFlag)
   }
@@ -65,9 +64,9 @@ const Recorder: React.FC<RecorderProps> = ({ setMethodCoverage }): React.ReactEl
   }
 
   return (
-    <div className="Record">
+    <div className="record">
       {isRecording ? (
-        <Button variant="contained" color="secondary" onClick={() => recorder(false)} startIcon={<Pause />} size="large" className="recording">
+        <Button variant="contained" color="secondary" onClick={() => recorder(false)} startIcon={<Pause />} size="large" id="recording">
           Recording
         </Button>
       ) : (
