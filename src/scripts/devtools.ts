@@ -1,6 +1,8 @@
-const backgroundPageConnection = chrome.runtime.connect({
+const backgroundPageConnection : chrome.runtime.Port = chrome.runtime.connect({
   name: 'panel',
 })
+
+console.log(backgroundPageConnection);
 
 backgroundPageConnection.postMessage({
   name: 'init',
@@ -9,10 +11,18 @@ backgroundPageConnection.postMessage({
 
 backgroundPageConnection.onMessage.addListener((message) => {
   // dispatch document events
-  console.log(message, 'devtools')
-  window.dispatchEvent(
-    new CustomEvent('traceCollected', {
-      detail: message,
-    }),
-  )
+  if (message.data === 'debuggerOnline') {
+    window.dispatchEvent(
+      new CustomEvent('debuggerOnline', {
+        detail: undefined,
+      }),
+    )
+  } else {
+    console.log('backgroundPageConnection.onMessage: ', message)
+    window.dispatchEvent(
+      new CustomEvent('newEventRecorded', { // changed event name from "traceCollected" to "newEvent" for better clarity
+        detail: message,
+      }),
+    )
+  }
 })

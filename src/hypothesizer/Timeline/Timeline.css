@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap');
+
+body {
+  text-align: center;
+  font-family: 'Source Code Pro', monospace;
+  font-weight: 100;
+}
+
+/* div#content > div > div.dot:before { 
+  border: 3px solid #005fae;
+  border-radius: 2px;
+  content: '';
+  z-index: -1;
+  bottom: 19px;
+  position: relative;
+} */
+
+div#content > div:first-child > div.dot:before {
+  display: none;
+}
+
+.selected > div:nth-child(1) {
+  outline: 3px solid #005fae;
+}
+
+.selected > div:nth-child(2) {
+  background-color: #005fae;
+  color: white;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
